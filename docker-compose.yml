@@ -1,9 +1,8 @@
-version: "3.8"
-name: next_front
+name: next_template
 services:
   next_template:
-    container_name: next_front
-    image: next_front:1.0.0
+    container_name: next_template
+    image: next_template:1.0.0
     build:
       context: .
       target: base
