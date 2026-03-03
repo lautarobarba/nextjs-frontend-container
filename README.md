@@ -41,6 +41,12 @@ $ docker push registry.desarrollosur.com.ar/lautarobarba/next_template:latest
 $ FRONT_PORT=XXXX docker compose -f docker-compose.production.yml up -d
 ```
 
+Para ver el estado del healthcheck:
+
+```bash
+$ docker inspect --format='{{json .State.Health}}' next_template
+```
+
 ## Detener
 
 ```bash
