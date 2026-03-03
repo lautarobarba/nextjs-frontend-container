@@ -35,7 +35,7 @@ $ docker build -f Dockerfile -t registry.desarrollosur.com.ar/lautarobarba/next_
 $ docker push registry.desarrollosur.com.ar/lautarobarba/next_template:latest
 ```
 
-4. Deploy (Nginx expone 80 dentro del contenedor; `FRONT_PORT` se mapea a 80):
+4. Deploy (Next.js SSR escucha en 3000 dentro del contenedor; `FRONT_PORT` se mapea a 3000):
 
 ```bash
 $ FRONT_PORT=XXXX docker compose -f docker-compose.production.yml up -d

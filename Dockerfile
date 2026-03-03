@@ -1,28 +1,22 @@
 ARG NODE_IMAGE=node:22-slim
-ARG NGINX_IMAGE=nginx:stable-alpine
 
-# Development
-FROM ${NODE_IMAGE} AS base
+FROM ${NODE_IMAGE} AS deps
 WORKDIR /app
-RUN apt update -y && apt upgrade -y
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm ci
 
-FROM base AS build
-COPY ./frontend/ ./
-RUN npm install
+FROM ${NODE_IMAGE} AS build
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY frontend/ ./
 RUN npm run build
 
-# Production
-FROM ${NGINX_IMAGE} AS production
-WORKDIR /usr/share/nginx/html
-
-# Copiar la configuración de Nginx
-COPY ./frontend/nginx.conf /etc/nginx/conf.d/default.conf
-
-# Copiar los archivos compilados desde la etapa de build
-COPY --from=build /app/build /usr/share/nginx/html
-
-# Exponer el puerto 80
-EXPOSE 80
-
-# Iniciar Nginx
-CMD ["nginx", "-g", "daemon off;"]
+FROM ${NODE_IMAGE} AS production
+WORKDIR /app
+ENV NODE_ENV=production
+ENV PORT=3000
+COPY --from=build /app/.next/standalone ./
+COPY --from=build /app/.next/static ./.next/static
+COPY --from=build /app/public ./public
+EXPOSE 3000
+CMD ["node", "server.js"]
