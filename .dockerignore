@@ -8,3 +8,8 @@ frontend/.turbo
 .env
 .env.*
 docs
+frontend/README.md
+.vscode
+.idea
+coverage
+frontend/.eslintcache
