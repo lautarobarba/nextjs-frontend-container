@@ -2,17 +2,8 @@ name: next_template
 services:
   next_template:
     container_name: next_template
-    image: next_template:prod
-    build:
-      context: .
-      target: prod
-      dockerfile: ./Dockerfile
-    command: bash -c "npm install && npm run build && npm run start"
+    image: registry.desarrollosur.com.ar/lautarobarba/next_template:latest
     restart: always
     env_file: .env
-    environment:
-      - PORT=${FRONT_PORT}
     ports:
-      - ${FRONT_PORT}:${FRONT_PORT}
-    volumes:
-      - ./frontend:/app
+      - ${FRONT_PORT}:80

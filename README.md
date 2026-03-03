@@ -15,6 +15,32 @@ $ docker compose up -d
 
 _Quitando la opción *-d* se ven los logs del contenedor._
 
+## Produccion (manual)
+
+1. Login al registry:
+
+```bash
+$ docker login registry.desarrollosur.com.ar
+```
+
+2. Build:
+
+```bash
+$ docker build -f Dockerfile -t registry.desarrollosur.com.ar/lautarobarba/next_template:latest .
+```
+
+3. Push:
+
+```bash
+$ docker push registry.desarrollosur.com.ar/lautarobarba/next_template:latest
+```
+
+4. Deploy (Nginx expone 80 dentro del contenedor; `FRONT_PORT` se mapea a 80):
+
+```bash
+$ FRONT_PORT=XXXX docker compose -f docker-compose.production.yml up -d
+```
+
 ## Detener
 
 ```bash
