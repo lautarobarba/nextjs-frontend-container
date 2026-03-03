@@ -2,12 +2,12 @@ name: next_template
 services:
   next_template:
     container_name: next_template
-    image: next_template:1.0.0
+    image: next_template:dev
     build:
       context: .
       target: base
       dockerfile: ./Dockerfile
-    command: bash /start.sh
+    command: bash -c "npm install && npm run dev"
     restart: always
     env_file: .env
     environment:
@@ -16,6 +16,3 @@ services:
       - ${FRONT_PORT}:${FRONT_PORT}
     volumes:
       - ./frontend:/app
-      - ./start.sh:/start.sh
-    extra_hosts:
-      - host.docker.internal:host-gateway
